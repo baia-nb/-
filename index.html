@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的世界服务器群公告</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 30%, #2d1b4e 60%, #1a1a3e 100%);
+            min-height: 100vh;
+            padding: 30px 20px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 80, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(80, 120, 200, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+        
+        h1 {
+            color: #ffd700;
+            font-size: 32px;
+            margin-bottom: 15px;
+            text-shadow: 
+                0 0 10px rgba(255, 215, 0, 0.6),
+                0 0 20px rgba(255, 215, 0, 0.4),
+                0 0 30px rgba(255, 215, 0, 0.2);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.6), 0 0 20px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.2); }
+            to { text-shadow: 0 0 15px rgba(255, 215, 0, 0.8), 0 0 25px rgba(255, 215, 0, 0.6), 0 0 35px rgba(255, 215, 0, 0.4); }
+        }
+        
+        .author-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, rgba(120, 80, 200, 0.3) 0%, rgba(80, 120, 200, 0.3) 100%);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(120, 80, 200, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .author-badge:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(120, 80, 200, 0.5);
+            background: linear-gradient(135deg, rgba(120, 80, 200, 0.4) 0%, rgba(80, 120, 200, 0.4) 100%);
+        }
+        
+        .author-icon {
+            font-size: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .author-text {
+            color: #fff;
+            font-size: 14px;
+        }
+        
+        .author-name {
+            color: #a855f7;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+        
+        .main-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 35px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .rule-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rule-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .rule-section:hover::before {
+            left: 100%;
+        }
+        
+        .rule-section:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+        
+        .rule-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        
+        .rule-icon {
+            font-size: 28px;
+            margin-right: 14px;
+            transition: transform 0.3s ease;
+        }
+        
+        .rule-section:hover .rule-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .rule-title {
+            color: #fff;
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: color 0.3s ease;
+        }
+        
+        .rule-section:hover .rule-title {
+            color: #a855f7;
+        }
+        
+        .rule-content {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 14.5px;
+            line-height: 1.9;
+            padding-left: 42px;
+        }
+        
+        .rule-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .rule-content li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 10px;
+            transition: padding-left 0.3s ease;
+        }
+        
+        .rule-section:hover .rule-content li {
+            padding-left: 30px;
+        }
+        
+        .rule-content li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #a855f7;
+            font-size: 12px;
+            text-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+        
+        .rule-section:hover .rule-content li::before {
+            transform: scale(1.3);
+            color: #c084fc;
+        }
+        
+        .punishment {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.15) 0%, rgba(255, 80, 80, 0.1) 100%);
+            border-left: 4px solid #ff6464;
+            padding: 14px 18px;
+            margin-top: 18px;
+            border-radius: 0 12px 12px 0;
+            font-size: 13.5px;
+            color: #ff9494;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .punishment::before {
+            content: '⚠️';
+            margin-right: 8px;
+            font-size: 15px;
+        }
+        
+        .rule-section:hover .punishment {
+            background: linear-gradient(135deg, rgba(255, 100, 100, 0.2) 0%, rgba(255, 80, 80, 0.15) 100%);
+            border-left-color: #ff8888;
+            transform: translateX(5px);
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 35px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 13px;
+        }
+        
+        .footer strong {
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+        
+        .footer-creator {
+            margin-top: 10px;
+            font-size: 12px;
+            color: rgba(168, 85, 247, 0.7);
+        }
+        
+        .footer-creator span {
+            color: #c084fc;
+            font-weight: bold;
+        }
+        
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(168, 85, 247, 0.3), transparent);
+            margin: 30px 0;
+        }
+        
+        .confirm-section {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 15px;
+        }
+        
+        .confirm-btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #fff;
+            background: linear-gradient(135deg, #a855f7 0%, #7c3aed 50%, #6366f1 100%);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 
+                0 4px 15px rgba(168, 85, 247, 0.4),
+                0 0 30px rgba(168, 85, 247, 0.2);
+        }
+        
+        .confirm-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .confirm-btn:hover::before {
+            left: 100%;
+        }
+        
+        .confirm-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 10px 30px rgba(168, 85, 247, 0.5),
+                0 0 50px rgba(168, 85, 247, 0.3);
+        }
+        
+        .confirm-btn:active {
+            transform: translateY(-1px) scale(1.02);
+        }
+        
+        .confirm-icon {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+        
+        .confirm-btn:hover .confirm-icon {
+            transform: rotate(360deg);
+        }
+        
+        .confirm-message {
+            margin-top: 20px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s ease;
+        }
+        
+        .confirm-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .confirm-message.success {
+            color: #4ade80;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 0;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .main-content {
+                padding: 20px;
+                border-radius: 20px;
+            }
+            
+            .rule-section {
+                padding: 18px;
+                margin-bottom: 15px;
+            }
+            
+            .rule-title {
+                font-size: 17px;
+            }
+            
+            .rule-content {
+                padding-left: 36px;
+                font-size: 13.5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌟 我的世界服务器群公告</h1>
+            <div class="author-badge">
+                <span class="author-icon">🎨</span>
+                <span class="author-text">UI设计：<span class="author-name">白A</span></span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">🚫</span>
+                    <span class="rule-title">1. 禁止一切使用第三方作弊(群内工具除外)行为</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>严禁在群内发送、讨论、索要任何第三方作弊程序(材质包除外)，私下交易或传播外挂也属违规。</li>
+                        <li>包括但不限于使用第三方工具</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁言24小时 禁止加入服务器(Ban) 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">📜</span>
+                    <span class="rule-title">2. 规范内容发布</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>严禁发送和私下传播与色情、暴力、血腥有关的任何内容。图片、视频及链接可经过"服务器管理员"或"服主"同意后发送，如图片出现上述违规内容"服务器管理员"或"服主"有权拒绝发送，禁止传播和发送、私聊任何违法或违规信息。</li>
+                        <li>严禁出现辱骂、人身攻击等，歧视、骚扰也视为不友善言论，"服务器管理员"或"服主"有权利撤回。</li>
+                        <li>严禁在群内进行"刷屏"行为，这里包括但不限于重复发送内容、发生大量文本文字、索要OP。</li>
+                        <li>严禁出现诈骗、贿赂等行为，"服务器管理员"或"服主"有权在有需要时进行报警处理！</li>
+                        <li>如有争议，"服务器管理员"或"服主"有权利辨别并拒绝发送！</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁言24小时 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">🎨</span>
+                    <span class="rule-title">3. 保护原创权益</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>尊重并支持成员在服务器内的原创内容，包括但不限于原创建筑、插件、玩法设计，禁止未经授权抄袭、盗用他人原创成果等任何违规行为。若需借鉴或使用他人原创内容，需提前获得创作者明确许可，并注明来源。</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁言1小时 禁言24小时 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">📢</span>
+                    <span class="rule-title">4. 管理沟通规范</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>非紧急或重要事务，请勿频繁添加"服务器管理员"或"服主"好友或私聊打扰，群内公开问题会优先处理。如有需要"服务器管理员"或"服主"有权利进行报警！</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁言24小时 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">👥</span>
+                    <span class="rule-title">5. 成员邀请限制</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>禁止邀请与服务器无任何关联的人员入群，邀请新成员前需确认其为服务器玩家，避免无关人员干扰。</li>
+                        <li>禁止邀请任何机器人</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [踢出邀请人员 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">🚫</span>
+                    <span class="rule-title">6. 禁止任何推广行为</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>严禁在服务器内、服务器群聊内、群成员私信内等发布任何推广，包括但不限于非服务器外的任何存档或服务器、非"我的世界网易版"的任何游戏、其他软件(包括社交软件)、二维码、网址(链接)、邀请码、推荐好友。</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁言24小时 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">ℹ️</span>
+                    <span class="rule-title">7. 附加说明</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>本群规则与服务器内规则并行，成员需同时遵守服务器游戏规则。</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁止加入服务器(Ban) 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">🤝</span>
+                    <span class="rule-title">8. 关于此公告</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>此公告由"服务器管理员"或"服主"所有，非上述人员对此公告只拥有遵守权利，我们对除上述人员的除上述权利之外的任何行为不予理睬、不予接纳、不予赞同！</li>
+                        <li>除"服务器管理员"或"服主"外的任何人严禁泄露、透露给与此服务器无关的任何人。</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [禁止加入服务器(Ban) 踢出群聊并拉黑]</div>
+                </div>
+            </div>
+            
+            <div class="rule-section">
+                <div class="rule-header">
+                    <span class="rule-icon">🌟</span>
+                    <span class="rule-title">9. 声明</span>
+                </div>
+                <div class="rule-content">
+                    <ul>
+                        <li>如规则1-9您有不同意的地方，请自行退出服务器、退出群聊，否则"服务器管理员"或"服主"有权利进行踢出。</li>
+                    </ul>
+                    <div class="punishment">如有违反 - [踢出群聊]</div>
+                </div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="confirm-section">
+                <button class="confirm-btn" id="confirmBtn">
+                    <span class="confirm-icon">✅</span>
+                    <span>我已阅读并同意上述规则</span>
+                </button>
+                <p class="confirm-message" id="confirmMessage">点击按钮表示您已理解并同意遵守所有规则</p>
+            </div>
+            
+            <div class="footer">
+                <p>此公告解释权归<strong>龙泽紫云</strong>所有。</p>
+                <p class="footer-creator">✨ UI设计：<span>白A</span></p>
+            </div>
+        </div>
+    </div>
+<script>
+            const confirmBtn = document.getElementById('confirmBtn');
+            const confirmMessage = document.getElementById('confirmMessage');
+            
+            confirmBtn.addEventListener('click', function() {
+                confirmBtn.innerHTML = '<span class="confirm-icon">🎉</span><span>已确认！欢迎加入</span>';
+                confirmBtn.style.background = 'linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%)';
+                confirmBtn.style.boxShadow = '0 4px 15px rgba(74, 222, 128, 0.4), 0 0 30px rgba(74, 222, 128, 0.2)';
+                confirmBtn.disabled = true;
+                
+                confirmMessage.textContent = '🎊 恭喜！您已成功确认并同意所有规则';
+                confirmMessage.classList.add('show', 'success');
+            });
+            
+            confirmBtn.addEventListener('mouseenter', function() {
+                confirmMessage.classList.add('show');
+            });
+            
+            confirmBtn.addEventListener('mouseleave', function() {
+                if (!confirmBtn.disabled) {
+                    confirmMessage.classList.remove('show');
+                }
+            });
+        </script>
+    </body>
+</html>
