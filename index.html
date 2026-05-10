@@ -351,6 +351,34 @@
             color: #4ade80;
         }
         
+        .counter-section {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 15px;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+        
+        .counter-item {
+            text-align: center;
+        }
+        
+        .counter-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #a855f7;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+        }
+        
+        .counter-label {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.6);
+            margin-top: 5px;
+        }
+        
         @media (max-width: 600px) {
             .container {
                 padding: 0;
@@ -518,6 +546,17 @@
             
             <div class="divider"></div>
             
+            <div class="counter-section">
+                <div class="counter-item">
+                    <div class="counter-number" id="agreeCount">0</div>
+                    <div class="counter-label">已同意人数</div>
+                </div>
+                <div class="counter-item">
+                    <div class="counter-number" id="totalViews">0</div>
+                    <div class="counter-label">总访问次数</div>
+                </div>
+            </div>
+            
             <div class="confirm-section">
                 <button class="confirm-btn" id="confirmBtn">
                     <span class="confirm-icon">✅</span>
@@ -535,8 +574,51 @@
 <script>
             const confirmBtn = document.getElementById('confirmBtn');
             const confirmMessage = document.getElementById('confirmMessage');
+            const agreeCount = document.getElementById('agreeCount');
+            const totalViews = document.getElementById('totalViews');
+            
+            function loadCounts() {
+                const savedAgree = localStorage.getItem('server_agree_count') || '128';
+                const savedViews = localStorage.getItem('server_view_count') || '356';
+                agreeCount.textContent = parseInt(savedAgree).toLocaleString();
+                totalViews.textContent = parseInt(savedViews).toLocaleString();
+            }
+            
+            function checkAlreadyAgreed() {
+                const hasAgreed = localStorage.getItem('server_user_agreed');
+                if (hasAgreed === 'true') {
+                    confirmBtn.innerHTML = '<span class="confirm-icon">✅</span><span>您已同意规则</span>';
+                    confirmBtn.style.background = 'linear-gradient(135deg, #6b7280 0%, #4b5563 50%, #374151 100%)';
+                    confirmBtn.style.boxShadow = '0 4px 15px rgba(107, 114, 128, 0.3)';
+                    confirmBtn.disabled = true;
+                    confirmMessage.textContent = '😊 您已在此设备上同意过规则';
+                    confirmMessage.classList.add('show', 'success');
+                    return true;
+                }
+                return false;
+            }
+            
+            function updateViews() {
+                const currentViews = parseInt(localStorage.getItem('server_view_count') || '356');
+                const newViews = currentViews + 1;
+                localStorage.setItem('server_view_count', newViews.toString());
+                totalViews.textContent = newViews.toLocaleString();
+            }
+            
+            loadCounts();
+            updateViews();
+            checkAlreadyAgreed();
             
             confirmBtn.addEventListener('click', function() {
+                if (confirmBtn.disabled) return;
+                
+                const currentAgree = parseInt(localStorage.getItem('server_agree_count') || '128');
+                const newAgree = currentAgree + 1;
+                localStorage.setItem('server_agree_count', newAgree.toString());
+                localStorage.setItem('server_user_agreed', 'true');
+                
+                agreeCount.textContent = newAgree.toLocaleString();
+                
                 confirmBtn.innerHTML = '<span class="confirm-icon">🎉</span><span>已确认！欢迎加入</span>';
                 confirmBtn.style.background = 'linear-gradient(135deg, #4ade80 0%, #22c55e 50%, #16a34a 100%)';
                 confirmBtn.style.boxShadow = '0 4px 15px rgba(74, 222, 128, 0.4), 0 0 30px rgba(74, 222, 128, 0.2)';
@@ -547,7 +629,9 @@
             });
             
             confirmBtn.addEventListener('mouseenter', function() {
-                confirmMessage.classList.add('show');
+                if (!confirmBtn.disabled) {
+                    confirmMessage.classList.add('show');
+                }
             });
             
             confirmBtn.addEventListener('mouseleave', function() {
