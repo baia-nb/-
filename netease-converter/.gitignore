@@ -1,0 +1,8 @@
+node_modules/
+.env
+temp/*
+!temp/.gitkeep
+sample_world.zip
+out_encrypted.zip
+out_decrypted.zip
+_inspect/

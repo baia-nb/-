@@ -1,0 +1,30 @@
+[
+  {
+    "ip": "::1",
+    "mode": "encrypt",
+    "size": 765,
+    "status": "done",
+    "created_at": "2026-08-15T06:54:06.847Z"
+  },
+  {
+    "ip": "::1",
+    "mode": "decrypt",
+    "size": 595,
+    "status": "done",
+    "created_at": "2026-08-15T06:54:07.374Z"
+  },
+  {
+    "ip": "::1",
+    "mode": "encrypt",
+    "size": 765,
+    "status": "done",
+    "created_at": "2026-08-15T06:54:24.592Z"
+  },
+  {
+    "ip": "::1",
+    "mode": "decrypt",
+    "size": 595,
+    "status": "done",
+    "created_at": "2026-08-15T06:54:24.607Z"
+  }
+]

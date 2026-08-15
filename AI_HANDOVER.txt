@@ -1,0 +1,225 @@
+=====================================================================
+  AI 交接留言 / HANDOVER NOTE FOR NEXT AI
+  项目: 我的世界格式转换器 (dabao)
+  日期: 2026-08-14
+  作者: 上一个 AI (GLM-5.2)
+=====================================================================
+
+给下一个 AI:
+
+你好! 我是上一个负责这个项目的 AI。以下是当前项目状态和重要信息,
+请在开始工作前仔细阅读。
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+一、项目概述
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+这是一个基于 Python 的"我的世界"格式转换器, 功能包括:
+  - 建筑格式转换 (bdx/litematic/mcstructure/schematic/schem 互转)
+  - 音乐格式转换 (midi/nbs 转指令)
+  - 优化功能 (fill合并/区块化/自动加进度/掉落保护/生成保护)
+  - 批量处理
+  - 像素画转换
+  - 加密服务 (.baia 格式 + 授权码系统)
+  - 图标替换 (自定义 ICO)
+
+技术栈:
+  - Python 3.13
+  - Tkinter (GUI)
+  - PyInstaller (打包 EXE)
+  - BDXConverter 1.2.0 (BDX 解析, PyPI 公开库)
+  - nbtlib + brotli + numpy (BDXConverter 依赖)
+  - 自定义加密引擎 (PBKDF2+SHA256流密码+HMAC)
+
+入口文件: main.py (CLI) / ui/app.py (GUI)
+打包配置: mc_converter.spec
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+二、当前最新状态 (2026-08-14)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【EXE 状态】
+  - 路径: dist\我的世界格式转换器.exe
+  - 大小: 34.7 MB (含 numpy, 之前 22MB, 因 BDXConverter 依赖 numpy 而增大)
+  - 图标: 已嵌入自定义图标 (app.ico, PyInstaller 构建时直接嵌入)
+  - 测试通过: BDX 转换 100% 匹配 Exchange Tool 输出
+
+【最后一次修复】
+  问题: EXE 中 BDX 转换失败, 输出"第三方加密格式"错误
+  原因: nbtlib 依赖 numpy, 但 mc_converter.spec 排除了 numpy
+  修复:
+    1. mc_converter.spec: 移除 numpy 排除, 添加到 hiddenimports
+    2. core/readers/bdx.py: 解析失败返回 bdx_error (含 traceback) 而非 bdx_encrypted
+    3. core/writers/txt.py: 删除旧的"第三方加密"错误信息, 改为显示实际错误
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+三、关键文件清单
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+核心模块 (core/):
+  - model.py        数据模型 (Block/Structure/Note/MidiData)
+  - nbt.py          NBT 解析器 (大端/小端 + gzip)
+  - blocks.py       方块映射表
+  - crypto.py       加密引擎 (PBKDF2+SHA256流密码+HMAC)
+  - license.py      授权码系统 (BAIA-XXXX-XXXX-XXXX-XXXX 格式)
+  - baia.py         .baia 加密格式读写器
+  - optimizers.py   优化功能 (fill合并/区块化等)
+  - pixelart.py     像素画转换
+  - batch.py        批量处理
+  - paths.py        路径管理
+  - block_runtime_ids.json  运行时ID映射表 (8289项, MC 1.19.10.22)
+
+读取器 (core/readers/):
+  - bdx.py          BDX 读取器 (BDXConverter库, 支持所有操作类型)
+  - litematic.py    Litematic 读取器
+  - mcstructure.py  MCStructure 读取器
+  - schematic.py    Schematic 读取器
+  - midi.py         MIDI 读取器
+  - nbs.py          NBS 读取器
+  - __init__.py     读取器注册表
+
+写入器 (core/writers/):
+  - txt.py          setblock 指令写入器 (支持 nbt_data pos + blockData)
+  - ibi.py          IBI 写入器
+  - dsb.py          DSB 写入器
+  - __init__.py     写入器注册表
+
+插件 (plugins/):
+  - converters.py   转换类插件
+  - music.py        音乐类插件
+  - optimizers.py   优化类插件
+  - batch.py        批量类插件
+  - tools.py        工具类插件
+  - crypto_service.py  加密服务插件 (6个功能)
+  - registry.py     插件注册表
+
+UI:
+  - ui/app.py       Tkinter GUI
+  - main.py         CLI 入口
+
+保护:
+  - protector.py         代码加密保护
+  - antidecompile.py     反调试/反dump/反VM
+  - rthook_protect.py    运行时 hook
+  - change_icon.py       EXE 图标替换脚本
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+四、重要技术决策 (必读!)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+【决策1: BDX 格式真相】
+  - BD@ 文件不是加密的! 是 PhoenixBuilder/Eaglercraft 二进制操作流
+  - 之前多个 AI 会话都误判为"第三方加密格式无法解析" (错误!)
+  - 正确方案: pip install BDXConverter (PyPI 公开库 v1.2.0)
+  - BDXConverter 依赖: nbtlib + brotli + numpy
+  - BDX 使用游标式布局: 从(0,0,0)开始, AddX/Y/ZValue 移动游标, PlaceBlock 放方块
+  - 输出方块名用短名 (如 "bedrock" 不是 "minecraft:bedrock"), 与 Exchange Tool 一致
+
+【决策2: numpy 必须打包】
+  - nbtlib 内部用了 numpy, 不能排除
+  - mc_converter.spec 的 excludes 列表不能包含 numpy
+  - 这导致 EXE 从 22MB 增大到 34.7MB (可接受)
+
+【决策3: 加密服务设计】
+  - .baia 格式: 魔数 + 版本 + 元数据JSON + file_id + salt + nonce + 密文 + HMAC
+  - 授权码 = 解密密钥 (HMAC 校验隐式验证, 无需买家持有创作者密钥)
+  - 授权等级: trial(500方块+水印) / paid(无限) / full(商业授权)
+  - 创作者主密钥 = 文件解密密码, 必须妥善保存
+
+【决策4: 图标嵌入方式】
+  - 用 PyInstaller 的 icon='app.ico' 参数直接嵌入 (不是后期 PE 替换)
+  - app.ico 由 change_icon.py 从 jpg 生成 (6个尺寸: 256/128/64/48/32/16)
+  - 如图标不显示: 重启资源管理器或重启电脑刷新缓存
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+五、已知坑点 & 排错指南
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. PowerShell 不支持 && 分隔符, 用 ; 代替
+2. 沙箱限制无法删除某些文件, 用 Python shutil.rmtree(ignore_errors=True)
+3. PyInstaller 打包时设 PYTHONDONTWRITEBYTECODE=1 避免 __pycache__
+4. BDXConverter 导入失败 -> 检查 numpy/nbtlib/brotli 是否打包
+5. 图标不变化 -> 重启 explorer.exe 或清空 IconCache.db
+6. EXE 中相对路径要用 sys._MEIPASS (block_runtime_ids.json 路径)
+7. 授权码验证失败 -> 检查 base32 编解码 (24字符=15字节, 前9字节payload+6字节sig)
+8. PE 资源修改 -> 必须先备份 overlay, 修改后恢复 (否则 PYZ 被截断)
+
+【排错: BDX 转换为空】
+  1. 检查文件是否 BD@ 开头 (用 hex 查看前3字节)
+  2. 源码模式测试: python -c "from core.readers import read_structure; print(len(read_structure(path,'bdx').blocks))"
+  3. EXE 模式测试: 查看输出 txt 中的错误信息 (现在会显示 traceback)
+  4. 常见原因: numpy 未打包 / BDXConverter 版本不对 / 文件损坏
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+六、打包命令
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  cd c:\Users\ttnld\Documents\trae_projects\dabao
+  $env:PYTHONDONTWRITEBYTECODE=1
+  # 清理
+  if (Test-Path build) { Remove-Item -Recurse -Force build }
+  if (Test-Path dist) { Remove-Item -Recurse -Force dist }
+  # 打包
+  pyinstaller mc_converter.spec --noconfirm
+  # (图标已通过 spec 的 icon='app.ico' 嵌入, 无需再运行 change_icon.py)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+七、测试参考文件
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  参考实现: E:\我的世界\Exhcange Tool v13.0\
+    (含已编译的 .pyc, 可提取常量但 Python 3.14 字节码无法直接反编译)
+
+  测试 BDX 文件: E:\我的世界\猎奇的bdx\指令文件（bdx）\
+    - nn战桥.bdx -> nn战桥.txt (11612 方块, 已验证 100% 匹配)
+    - 主城(1).bdx (349466 方块)
+    - 繁茂洞穴.bdx (4073535 方块, 含运行时ID)
+    - 水晶征途-指令区v3.2.bdx (51080 方块, 含方块状态)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+八、未完成事项 / 可改进方向
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  1. EXE 体积优化 (34.7MB) - 可尝试排除 numpy.typing.tests 等测试模块
+  2. BDX 的 PlaceBlockWithNBTData 操作的 NBT 输出未完全验证
+  3. 加密服务的 GUI 面板可优化交互体验
+  4. 命令方块的 command 字段在 txt 输出中未完整渲染
+  5. 多版本运行时ID表支持 (当前只有 1.19.10.22)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+九、用户偏好
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  - 语言: 中文 (所有交互和代码注释用中文)
+  - 代码风格: 简洁, 不过度抽象, 不过度注释
+  - 沟通: 直接给结果, 不啰嗦
+  - 测试: 每次修改后用真实文件验证
+  - 参考目录: E:\我的世界\666 (格式参考), E:\我的世界\Exhcange Tool v13.0 (功能参考)
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+十、最后的话
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  这个项目经历了多个 AI 会话的迭代。最大的突破是发现 BD@ 不是加密格式,
+  而是可用 BDXConverter 库解析的标准格式。之前的 AI 都误判为加密文件,
+  导致 BDX 转换功能一直无法工作。
+
+  如果你遇到新的问题, 请优先检查:
+    1. 依赖是否正确打包 (numpy/nbtlib/brotli)
+    2. 路径是否兼容 sys._MEIPASS
+    3. 错误信息是否有助于诊断 (我已改为输出 traceback)
+
+  祝你好运! 用户很 nice, 耐心沟通即可。
+
+                                        — 上一个 AI, 2026-08-14
+=====================================================================

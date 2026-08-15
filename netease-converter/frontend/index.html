@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>网易版 ↔ 国际版 我的世界存档转换器</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🧱 我的世界存档转换器</h1>
+      <p>网易版 ↔ 国际版 基岩存档 解密 / 加密 · 仅用于玩家自有本地存档</p>
+    </header>
+
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" data-mode="decrypt">🔓 解密（网易 → 国际）</div>
+        <div class="tab" data-mode="encrypt">🔒 加密（国际 → 网易）</div>
+      </div>
+      <p id="modeHint" style="color:var(--muted);margin:0 0 14px;font-size:14px;">
+        将网易版加密存档（.zip）解密为可在国际版中使用的存档。
+      </p>
+
+      <div id="drop" class="drop">
+        点击选择，或拖拽 <b>.zip 存档</b> 到此处<br>
+        <small>单文件最大 100MB；建议先用本地客户端处理超大存档</small>
+      </div>
+      <input id="file" type="file" accept=".zip" hidden />
+
+      <div class="progress" id="progress"><i id="progressBar"></i></div>
+      <div class="status" id="status"></div>
+
+      <div style="margin-top:16px;">
+        <button id="run" class="btn">开始转换</button>
+      </div>
+
+      <div id="result" class="hidden"></div>
+
+      <div class="note">
+        ⚠️ 仅转换<b>玩家自己创建的本地存档</b>。网易资源工坊下载的加密地图大多无法解密；
+        禁止使用于私服绕过账号验证、商业牟利或分发盗版资源。
+      </div>
+    </div>
+
+    <div class="card faq">
+      <h3>常见问题</h3>
+      <ul>
+        <li><b>如何导出存档？</b> 在游戏中把世界「导出」为 .zip，或直接压缩存档文件夹为 zip 上传。</li>
+        <li><b>资源工坊地图解不开？</b> 工坊加密地图的密钥不在本地，开源方案无法解密，属正常限制。</li>
+        <li><b>解密后怎么用？</b> 解压得到的存档直接放入国际版 <code>minecraftWorlds</code> 目录即可。</li>
+        <li><b>加密后怎么用？</b> 把加密后的 zip 导入网易版即可（结构与原存档一致）。</li>
+        <li><b>安全吗？</b> 本工具在服务端临时处理，文件 2 小时后自动删除；请勿上传他人存档。</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>意见反馈</h3>
+      <textarea id="fbText" rows="3" placeholder="遇到报错、希望增加功能，或想提交一个测试存档…"></textarea>
+      <div style="margin-top:10px;"><button id="fbSend" class="btn secondary">提交反馈</button></div>
+      <div id="fbMsg" class="status"></div>
+    </div>
+
+    <small style="display:block;text-align:center;margin-top:8px;">
+      基于社区开源方案（ihaiming/NetEaseMC-Decryptor 思路）实现 · 仅供个人学习使用
+    </small>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

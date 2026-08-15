@@ -1,0 +1,26 @@
+# 构建上下文忽略项 / files excluded from the Docker build context
+.git
+.workbuddy
+__pycache__
+*.pyc
+
+# 桌面端构建产物 (与在线版无关, 且体量巨大)
+build/
+dist/
+Exchange Tool.exe_extracted/
+*.exe
+*.pyz
+*.zip
+build.bat
+
+# 前端: 不把本地 node_modules / 已构建 dist 打进上下文 (镜像内会重建)
+node_modules/
+web/frontend/node_modules
+web/frontend/dist
+
+# 临时/测试文件
+_*
+*.bdx
+*.mid
+*.jpg
+*.ico

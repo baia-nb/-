@@ -1,0 +1,13 @@
+# 示例明文 BDX 建筑文件
+# author: test
+size=5 3 5
+x,y,z,name,data
+0,0,0,minecraft:stone,0
+1,0,0,minecraft:stone,0
+2,0,0,minecraft:stone,0
+3,0,0,minecraft:stone,0
+4,0,0,minecraft:stone,0
+0,1,0,minecraft:oak_planks,0
+2,1,2,minecraft:chain_command_block,0
+3,1,2,minecraft:command_block,0
+4,2,4,minecraft:diamond_block,0

@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+@layer base {
+  body {
+    @apply bg-[#0e1116] text-stone-100 antialiased;
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(92, 184, 92, 0.12), transparent 42%),
+      radial-gradient(circle at 86% 82%, rgba(122, 82, 48, 0.14), transparent 46%);
+    background-attachment: fixed;
+  }
+}
+
+@layer components {
+  .mc-panel {
+    @apply bg-panel border-2 border-panel-border rounded-xl shadow-lg;
+  }
+  .mc-btn {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-bold
+           transition active:translate-y-0.5 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .mc-btn-primary {
+    @apply bg-grass hover:bg-[#4ea84e] text-[#0e1116];
+  }
+  .mc-btn-ghost {
+    @apply bg-transparent border-2 border-panel-border hover:border-grass text-stone-200;
+  }
+  .mc-chip {
+    @apply inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold
+           bg-[#1f2733] border border-panel-border text-stone-300;
+  }
+}

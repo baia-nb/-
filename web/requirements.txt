@@ -1,0 +1,9 @@
+# Web 后端依赖 (部署用) / runtime deps for the online converter backend
+fastapi
+uvicorn[standard]
+python-multipart
+BDXConverter>=1.2.0
+nbtlib
+brotli
+numpy
+Pillow

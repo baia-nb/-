@@ -1,0 +1,17 @@
+# 我的世界格式转换器 · 在线版 — VPS 单机部署
+#   docker compose up -d --build
+#
+# 默认把容器 8000 端口映射到宿主机 8000。
+# - 若用 Cloudflare 代理 baianb.kdns.fr: 在 Cloudflare 建 A 记录指向本机公网 IP,
+#   代理开启 (橙云), 源站填本机 IP + 端口 8000, SSL 模式 Full/Strict 即可, 无需本机证书。
+# - 若不用 Cloudflare: 见 nginx.conf, 用 certbot 给 baianb.kdns.fr 签发证书。
+services:
+  app:
+    build: .
+    image: mc-converter-web:latest
+    container_name: mc-converter-web
+    restart: unless-stopped
+    environment:
+      - PORT=8000
+    ports:
+      - "8000:8000"
